@@ -1,6 +1,7 @@
 package aiss.gitminer.repository;
 
 import aiss.gitminer.model.Commit;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 import aiss.gitminer.model.Project;
 @Repository
-public class ProjectRepository {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> projects = new ArrayList<>();
 
     public ProjectRepository(){
@@ -24,13 +25,13 @@ public class ProjectRepository {
         return projects;
     }
 
-    public Project findOne(String id){
+    public Project findOne(long id){
         return projects.stream()
                 .filter(Project -> Project.getId().equals(id))
                 .findFirst()
                 .orElse(null);
     }
-
+/*
     public Project create(Project project){
         Project newProject = new Project(
                 UUID.randomUUID().toString(),
@@ -39,5 +40,14 @@ public class ProjectRepository {
         );
         projects.add(newProject);
         return newProject;
+    }*/
+
+    public void update(Project updatedProject, long id) {
+        Project existing = findOne(id);
+        int i = projects.indexOf(existing);
+        updatedProject.setId(existing.getId());
+        projects.set(i, updatedProject);
     }
+
+    public void delete(){projects.removeIf(project -> project.getId().equals(id)}
 }
