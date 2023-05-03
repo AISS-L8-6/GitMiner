@@ -7,11 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Commit")
 public class Commit {
 
+    public Commit (String id,String title, String message, String author_email, String authored_date){
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.authorEmail = author_email;
+        this.authoredDate = authored_date;
+    }
     @Id
     @JsonProperty("id")
     private String id;

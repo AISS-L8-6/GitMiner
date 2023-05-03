@@ -12,6 +12,12 @@ import java.util.List;
 @Table(name = "Project")
 public class Project {
 
+    public Project(String id, String name, String web_url){
+        this.id = id;
+        this.name = name;
+        this.webUrl = web_url;
+        this.commits = new ArrayList<>();
+    }
     @Id
     @JsonProperty("id")
     public String id;
