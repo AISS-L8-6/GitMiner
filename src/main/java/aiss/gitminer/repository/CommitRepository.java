@@ -2,6 +2,8 @@ package aiss.gitminer.repository;
 
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -10,8 +12,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface CommitRepository {
+public interface CommitRepository extends JpaRepository<Commit, String> {
 
+    @Query("select c from Commit where c.email = :email")
+    public List<Commit> findByEmail(String email);
+/*
     List<Commit> commits = new ArrayList<>();
     public CommitRepository(){
         commits.add(new Commit(
@@ -46,4 +51,6 @@ public interface CommitRepository {
         return newCommit;
     }
 
+
+ */
 }

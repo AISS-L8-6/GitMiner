@@ -11,6 +11,7 @@ import java.util.UUID;
 import aiss.gitminer.model.Project;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
+    /*
     List<Project> projects = new ArrayList<>();
 
     public ProjectRepository(){
@@ -31,7 +32,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 .findFirst()
                 .orElse(null);
     }
-/*
+
     public Project create(Project project){
         Project newProject = new Project(
                 UUID.randomUUID().toString(),
@@ -40,7 +41,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         );
         projects.add(newProject);
         return newProject;
-    }*/
+    }
 
     public void update(Project updatedProject, long id) {
         Project existing = findOne(id);
@@ -49,5 +50,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
         projects.set(i, updatedProject);
     }
 
-    public void delete(){projects.removeIf(project -> project.getId().equals(id)}
+    public void delete(){projects.removeIf(project -> project.getId().equals(id)} */
 }

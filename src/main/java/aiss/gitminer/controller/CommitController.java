@@ -3,33 +3,44 @@ package aiss.gitminer.controller;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
+@Controller
+@RequestMapping("/gitminer/commits")
 public class CommitController {
 
-    private final CommitRepository repository;
+    @Autowired
+    CommitRepository repository;
 
-    public CommitController(CommitRepository repository){
-        this.repository = repository;
-    }
-
+    @GetMapping
     public List<Commit> findAll(){
         return repository.findAll();
     }
 
-    public Commit findOne(String id){
-        return repository.findOne(id);
+    @GetMapping("/{id}")
+    public Commit findOne(@PathVariable String id){
+        Optional<Commit> result = repository.findById(id);
+        return result.get();
+    }
+
+    @GetMapping("/{email}")
+    public List<Commit> findByEmail(@RequestParam("email") String email){
+        List<Commit> result = repository.findByEmail(email);
+        return result;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Commit create(@Valid @RequestBody Commit commit) {
-        return repository.create(commit);
+        Commit result = repository
+                .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
+        return result;
     }
 }

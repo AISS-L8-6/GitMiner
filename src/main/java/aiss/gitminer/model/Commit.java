@@ -12,20 +12,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Commit")
 public class Commit {
-
-    public Commit (String id,String title, String message, String author_email, String authored_date){
-        this.id = id;
-        this.title = title;
-        this.message = message;
-        this.authorEmail = author_email;
-        this.authoredDate = authored_date;
-    }
     @Id
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")
     private String title;
-
     @JsonProperty("message")
     @Column(columnDefinition="TEXT")
     private String message;
@@ -42,15 +33,26 @@ public class Commit {
     private String committerName;
     @JsonProperty("committer_email")
     private String committerEmail;
-
     @JsonProperty("committed_date")
     @NotEmpty(message = "Committer date cannot be empty.")
     private String committedDate;
-
     @JsonProperty("web_url")
     @NotEmpty(message = "URL cannot be empty." +
             "")
     private String webUrl;
+
+    public Commit(String id, String title, String message, String authorName, String authorEmail, String authoredDate, String committerName, String committerEmail, String committedDate, String webUrl) {
+        this.id = id;
+        this.title = title;
+        this.message = message;
+        this.authorName = authorName;
+        this.authorEmail = authorEmail;
+        this.authoredDate = authoredDate;
+        this.committerName = committerName;
+        this.committerEmail = committerEmail;
+        this.committedDate = committedDate;
+        this.webUrl = webUrl;
+    }
 
     public String getId() {
         return id;

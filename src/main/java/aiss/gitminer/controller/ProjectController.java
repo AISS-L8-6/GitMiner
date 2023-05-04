@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/projects")
+@RequestMapping("/gitminer/projects")
 public class ProjectController {
 
     @Autowired
@@ -35,11 +35,11 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
-        Project _project = repository
-                .save(new Project(project.getName(),project.getCommits()))
-        return _project);
+        Project result = repository
+                .save(new Project(project.getId(), project.getName(), project.getWebUrl(), project.getCommits(), project.getIssues()));
+        return result;
     }
-
+/*
     //PUT HTTP/LOCALHOST:8080/PROJECTS/ID
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("{/id}")
@@ -59,5 +59,5 @@ public class ProjectController {
             repository.deleteById(id);
         }
     }
-
+ */
 }
