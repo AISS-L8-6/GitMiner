@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface CommitRepository extends JpaRepository<Commit, String> {
 
-    @Query("select c from Commit where c.email = :email")
+    @Query("select c from Commit c where c.authorEmail = :email")
     public List<Commit> findByEmail(String email);
 /*
     List<Commit> commits = new ArrayList<>();

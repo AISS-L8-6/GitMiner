@@ -35,9 +35,7 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
-        Project result = repository
-                .save(new Project(project.getId(), project.getName(), project.getWebUrl(), project.getCommits(), project.getIssues()));
-        return result;
+        return repository.create(project);
     }
 /*
     //PUT HTTP/LOCALHOST:8080/PROJECTS/ID
