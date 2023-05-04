@@ -11,11 +11,19 @@ import java.util.UUID;
 import aiss.gitminer.model.Project;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-
-
-
-
     /*
+    public default Project create(Project project){
+        Project newProject = new Project(
+                UUID.randomUUID().toString(),
+                project.getName(),
+                project.getWebUrl(),
+                project.getCommits(),
+                project.getIssues());
+
+        projects.add(newProject);
+        return newProject;
+    }
+
 
     public ProjectRepository(){
         projects.add(new Project(
