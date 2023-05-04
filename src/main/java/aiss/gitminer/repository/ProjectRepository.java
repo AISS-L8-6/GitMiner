@@ -21,6 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 project.getWebUrl(),
                 project.getCommits(),
                 project.getIssues());
+
         projects.add(newProject);
         return newProject;
     }
