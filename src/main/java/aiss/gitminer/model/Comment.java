@@ -1,7 +1,6 @@
 package aiss.gitminer.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 

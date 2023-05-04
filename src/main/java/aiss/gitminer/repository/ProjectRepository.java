@@ -1,16 +1,10 @@
 package aiss.gitminer.repository;
 
-import aiss.gitminer.model.Commit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import aiss.gitminer.model.Project;
 @Repository
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, String> {
     /*
     public default Project create(Project project){
         Project newProject = new Project(

@@ -28,7 +28,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public Project findOne(@PathVariable long id){
+    public Project findOne(@PathVariable String id){
         Optional<Project> project = repository.findById(id);
         return project.get();
     }

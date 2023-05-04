@@ -1,27 +1,26 @@
 package aiss.gitminer.controller;
 
-import aiss.gitminer.model.Issue;
-import aiss.gitminer.repository.IssueRepository;
+import aiss.gitminer.model.Comment;
+import aiss.gitminer.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/gitminer/issue")
-public class IssueController {
-
+@Controller
+@RequestMapping("/gitminer/comments")
+public class CommentController {
     @Autowired
-    IssueRepository repository;
+    CommentRepository repository;
 
-    public IssueController(IssueRepository repository){
+    public CommentController(CommentRepository repository){
         this.repository = repository;
     }
 
     @GetMapping
-    public List<Issue> findAll(){
+    public List<Comment> findAll(){
         return repository.findAll();
     }
 }

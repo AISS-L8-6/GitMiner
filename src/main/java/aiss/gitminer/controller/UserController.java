@@ -1,7 +1,7 @@
 package aiss.gitminer.controller;
 
-import aiss.gitminer.model.Issue;
-import aiss.gitminer.repository.IssueRepository;
+import aiss.gitminer.model.User;
+import aiss.gitminer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,18 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gitminer/issue")
-public class IssueController {
-
+@RequestMapping("/gitminer/users")
+public class UserController {
     @Autowired
-    IssueRepository repository;
+    UserRepository repository;
 
-    public IssueController(IssueRepository repository){
+    public UserController(UserRepository repository){
         this.repository = repository;
     }
 
     @GetMapping
-    public List<Issue> findAll(){
+    public List<User> findAll(){
         return repository.findAll();
     }
+
+
 }
