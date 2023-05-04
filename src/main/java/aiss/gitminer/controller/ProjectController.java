@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/gitminer/projects")
@@ -35,7 +36,13 @@ public class ProjectController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
-        return repository.create(project);
+        Project newProject = repository.save(new Project(
+                    UUID.randomUUID().toString(),
+                    project.getName(),
+                    project.getWebUrl(),
+                    project.getCommits(),
+                    project.getIssues()));
+        return newProject;
     }
 /*
     //PUT HTTP/LOCALHOST:8080/PROJECTS/ID

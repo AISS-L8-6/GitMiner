@@ -35,12 +35,12 @@ public class CommitController {
         List<Commit> result = repository.findByEmail(email);
         return result;
     }
-
+/*
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Commit create(@Valid @RequestBody Commit commit) {
         Commit result = repository
                 .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
         return result;
-    }
+    }*/
 }
