@@ -2,6 +2,7 @@ package aiss.gitminer.controller;
 
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.repository.CommitRepository;
+import aiss.gitminer.repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +11,20 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/gitminer/commits")
 public class CommitController {
 
     @Autowired
     CommitRepository repository;
 
+    public CommitController(CommitRepository repository){
+        this.repository = repository;
+    }
+
     //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS
     @GetMapping
-    public List<Commit> findAll(@RequestParam(required = false) String email){
+    public List<Commit> findAll(@RequestParam(required = false) String email){//
         if (email != null){
             List<Commit> result = repository.findByEmail(email);
             return result;
