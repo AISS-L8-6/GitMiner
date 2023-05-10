@@ -19,6 +19,7 @@ public class UserController {
         this.repository = repository;
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/USERS
     @GetMapping
     public List<User> findAll(){
         return repository.findAll();

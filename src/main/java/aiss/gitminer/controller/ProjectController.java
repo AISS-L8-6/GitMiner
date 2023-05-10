@@ -22,28 +22,32 @@ public class ProjectController {
         this.repository = repository;
     }
 
+    //POST HTTP/LOCALHOST:8080/GITMINER/PROJECTS
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Project create(@Valid @RequestBody Project project) {
+        Project newProject = repository.save(new Project(
+                UUID.randomUUID().toString(),
+                project.getName(),
+                project.getWebUrl(),
+                project.getCommits(),
+                project.getIssues()));
+        return newProject;
+    }
+
+    //GET HTTP/LOCALHOST:8080/GITMINER/PROJECTS
     @GetMapping
     public List<Project> findAll(){
         return repository.findAll();
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/PROJECTS/ID
     @GetMapping("/{id}")
     public Project findOne(@PathVariable String id){
         Optional<Project> project = repository.findById(id);
         return project.get();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public Project create(@Valid @RequestBody Project project) {
-        Project newProject = repository.save(new Project(
-                    UUID.randomUUID().toString(),
-                    project.getName(),
-                    project.getWebUrl(),
-                    project.getCommits(),
-                    project.getIssues()));
-        return newProject;
-    }
 /*
     //PUT HTTP/LOCALHOST:8080/PROJECTS/ID
     @ResponseStatus(HttpStatus.NO_CONTENT)

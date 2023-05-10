@@ -22,11 +22,13 @@ public class CommentController {
         this.repository = repository;
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/COMMENTS
     @GetMapping
     public List<Comment> findAll(){
         return repository.findAll();
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/COMMENTS/{ID}
     @GetMapping("/{id}")
     public Comment findOne(@PathVariable String id){
         Optional<Comment> comment = repository.findById(id);

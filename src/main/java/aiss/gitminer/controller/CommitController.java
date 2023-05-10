@@ -17,18 +17,21 @@ public class CommitController {
     @Autowired
     CommitRepository repository;
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS
     @GetMapping
     public List<Commit> findAll(){
         return repository.findAll();
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS/{ID}
     @GetMapping("/{id}")
     public Commit findOne(@PathVariable String id){
         Optional<Commit> result = repository.findById(id);
         return result.get();
     }
 
-    @GetMapping("/{email}")
+    //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS?{EMAIL}
+    @GetMapping("")
     public List<Commit> findByEmail(@RequestParam("email") String email){
         List<Commit> result = repository.findByEmail(email);
         return result;

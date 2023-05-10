@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/gitminer/issue")
+@RequestMapping("/gitminer/issues")
 public class IssueController {
 
     @Autowired
@@ -21,25 +21,24 @@ public class IssueController {
         this.repository = repository;
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES
     @GetMapping
     public List<Issue> findAll(){
         return repository.findAll();
     }
 
+    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @GetMapping("/{id}")
     public Issue findOne(@PathVariable String id){
         Optional<Issue> issue = repository.findById(id);
         return issue.get();
     }
-    @GetMapping("/{id}/comments")
-    public List<Comment> findComment(@PathVariable String id){
-        Optional<Issue> issue = repository.findById(id);
-        return issue.get().getComments();
-    }
-    @GetMapping("issue?/{authorId}")
-    public List<Issue> findIssueByAuthorId(@RequestParam(name = "authorId") String AuthorId ) {
-        List<Issue> issues = repository.findAll();
-        return issues.filter(x -> x.getAuthor = AuthorId);
+
+    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES?={AUTHORID}
+    @GetMapping("")
+    public List<Issue> findByAuthorId(@RequestParam("authorId") String authorId){
+        List<Issue> issues = repository.findIssuesByAuthorId(authorId);
+        return issues;
     }
 
 }
