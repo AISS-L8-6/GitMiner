@@ -35,7 +35,7 @@ public class IssueController {
     }
 
     //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES?={AUTHORID}
-    @GetMapping("")
+    @GetMapping
     public List<Issue> findByAuthorId(@RequestParam("authorId") String authorId){
         List<Issue> issues = repository.findIssuesByAuthorId(authorId);
         return issues;
