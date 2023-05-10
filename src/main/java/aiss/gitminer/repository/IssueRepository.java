@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, String> {
-    @Query("select i from Issue i where i.AuthorId = :AuthorId")
-    public List<Issue> findIssuesByAuthorId(String AuthorId);
+    @Query("select i from Issue i where i.author = :authorId")
+    public List<Issue> findIssuesByAuthorId(String authorId);
 }

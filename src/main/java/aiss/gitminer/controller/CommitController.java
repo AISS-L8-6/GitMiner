@@ -19,8 +19,13 @@ public class CommitController {
 
     //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS
     @GetMapping
-    public List<Commit> findAll(){
-        return repository.findAll();
+    public List<Commit> findAll(@RequestParam(required = false) String email){
+        if (email != null){
+            List<Commit> result = repository.findByEmail(email);
+            return result;
+        }else {
+            return repository.findAll();
+        }
     }
 
     //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS/{ID}
@@ -31,11 +36,11 @@ public class CommitController {
     }
 
     //GET HTTP/LOCALHOST:8080/GITMINER/COMMITS?{EMAIL}
-    @GetMapping("")
+    /*
+    @GetMapping
     public List<Commit> findByEmail(@RequestParam("email") String email){
-        List<Commit> result = repository.findByEmail(email);
-        return result;
-    }
+
+    }*/
 /*
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
