@@ -33,7 +33,12 @@ public class IssueController {
         Optional<Issue> issue = repository.findById(id);
         return issue.get();
     }
-
+    @GetMapping(params = "state")
+    public List<Issue> findIssueByState(@RequestParam (name = "state") String state){
+        List<Issue> issues = repository.findAll();
+        List<Issue> issuesByState = issues.stream().filter(issue -> issue.getState().equals(state)).toList();
+        return issuesByState;
+    }
     //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES?={AUTHORID}
     /*@GetMapping
     public List<Issue> findByAuthorId(@RequestParam("authorId") String authorId){
