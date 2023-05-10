@@ -46,4 +46,11 @@ public class IssueController {
         return issues;
     }*/
 
+
+    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
+    @GetMapping("/{id}/comments")
+    public List<Comment> findCommentsFromIssueId(@PathVariable String id){
+        List<Comment> comments = repository.findById(id).get().getComments();
+        return comments;
+    }
 }
