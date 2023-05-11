@@ -27,7 +27,7 @@ public class ProjectController {
     @PostMapping
     public Project create(@Valid @RequestBody Project project) {
         Project newProject = repository.save(new Project(
-                UUID.randomUUID().toString(),
+                project.getId(),
                 project.getName(),
                 project.getWebUrl(),
                 project.getCommits(),

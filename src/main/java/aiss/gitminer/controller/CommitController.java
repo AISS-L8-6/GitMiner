@@ -26,8 +26,7 @@ public class CommitController {
     @GetMapping
     public List<Commit> findAll(@RequestParam(required = false) String email){//
         if (email != null){
-            List<Commit> result = repository.findByEmail(email);
-            return result;
+            return repository.findByEmail(email);
         }else {
             return repository.findAll();
         }

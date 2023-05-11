@@ -10,4 +10,7 @@ import java.util.List;
 public interface IssueRepository extends JpaRepository<Issue, String> {
     @Query("select i from Issue i where i.author.id = :authorId")
     public List<Issue> findIssuesByAuthorId(String authorId);
+
+    @Query("select i from Issue i where i.state = :state")
+    public List<Issue> findIssuesByState(String state);
 }
