@@ -3,6 +3,11 @@ package aiss.gitminer.controller;
 import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.User;
 import aiss.gitminer.repository.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +27,28 @@ public class UserController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/USERS
+    @Operation(summary = "Retrieve all User"  ,description = "Get all User" ,tags = {"User","get"} )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(schema = @Schema(implementation = UserController.class ),mediaType = "application/json")})
+    })
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<User> findAll(){
         return repository.findAll();
     }
 
     //POST HTTP://LOCALHOST:8080/GITMINER/USERS
+
+    @Operation(
+            summary = "Insert a user in  issue ",
+            description = "Add a new user whose data is passed in the body of the request in JSON format",
+            tags = {"user","post"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Success", content = { @Content(schema = @Schema(implementation = UserController.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User create(@Valid @RequestBody User user){
@@ -42,6 +63,17 @@ public class UserController {
     }
 
     //PUT HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
+
+    @Operation(
+            summary = "Update an User",
+            description = "Update an User object by specifying its id and whose data is passed in the body of the request in JSON ",
+            tags = {"User","put"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Update",  content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@Valid @RequestBody User updatedUser, @PathVariable String id) throws CommentNotFoundException {
@@ -58,6 +90,16 @@ public class UserController {
     }
 
     //DELETE HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
+    @Operation(
+            summary = "Delete an User",
+            description = "Delete an User object by specifying its id ",
+            tags = {"User","delete"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Update",  content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) throws CommentNotFoundException {
