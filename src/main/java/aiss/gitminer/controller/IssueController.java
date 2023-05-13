@@ -6,6 +6,11 @@ import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +34,15 @@ public class IssueController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES
+    @Operation(
+            summary = "Retrieve all issues",
+            description = "Get all issues ",
+            tags = {"issues","get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(schema = @Schema(implementation = IssueController.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @GetMapping("/issues")
     public List<Issue> findAll(@RequestParam (required = false) String state, @RequestParam(required = false) String authorId){
         if (state != null && authorId != null){
@@ -45,6 +59,15 @@ public class IssueController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    @Operation(
+            summary = "Retrieve an issues by id",
+            description = "Get  an issues object by specifying its id ",
+            tags = {"issues","get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(schema = @Schema(implementation = IssueController.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @GetMapping("/issues/{id}")
     public Issue findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Issue> issue = repository.findById(id);
@@ -53,11 +76,20 @@ public class IssueController {
         }
         return issue.get();
     }
-    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES?STATE={STATE}
+
 
 
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
+    @Operation(
+            summary = "Retrieve all issue comments",
+            description = "Get all comments from an issue by specifying the issue Id",
+            tags = {"issue","get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(schema = @Schema(implementation = CommentController.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @GetMapping("/issues/{id}/comments")
     public List<Comment> findCommentsFromIssueId(@PathVariable String id) throws CommentNotFoundException {
         List<Comment> comments = repository.findById(id).get().getComments();
@@ -68,6 +100,15 @@ public class IssueController {
     }
 
     //POST HTTP://LOCALHOST:8080/GITMINER/PROJECTS/{id}
+    @Operation(
+            summary = "Insert a issue in  project ",
+            description = "Add a new issue whose data is passed in the body of the request in JSON format",
+            tags = {"issue","post"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Success", content = { @Content(schema = @Schema(implementation = IssueController.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/projects/{id}/issues")
     public Issue create(@Valid @RequestBody Issue issue, @PathVariable String id){
@@ -79,6 +120,16 @@ public class IssueController {
         return _issue;
     }
     //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    @Operation(
+            summary = "Update an issue",
+            description = "Update an issue object by specifying its id and whose data is passed in the body of the request in JSON ",
+            tags = {"issue","put"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Update",  content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/issues/{id}")
     public void update(@Valid @RequestBody Issue issue, @PathVariable String id) throws CommentNotFoundException {
@@ -104,6 +155,16 @@ public class IssueController {
     }
 
     //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    @Operation(
+            summary = "Delete an issue",
+            description = "Delete an issue object by specifying its id ",
+            tags = {"issue","delete"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Update",  content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
+    })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/issues/{id}")
     public  void  delete(@PathVariable String id) throws CommentNotFoundException {
