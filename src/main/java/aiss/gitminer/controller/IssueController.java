@@ -101,7 +101,4 @@ public class IssueController {
             repository.deleteById(id);
         }
     }
-
-
-
 }

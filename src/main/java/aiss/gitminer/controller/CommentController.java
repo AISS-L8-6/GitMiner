@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/gitminer/comments")
+@RequestMapping("/gitminer")
 public class CommentController {
     @Autowired
     CommentRepository repository;
