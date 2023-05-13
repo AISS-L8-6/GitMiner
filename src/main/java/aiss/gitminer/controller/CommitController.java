@@ -51,7 +51,7 @@ public class CommitController {
 
     //POST HTTP://LOCALHOST:8080/GITMINER/PROJECTS/{id}
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/projects/{id}/comments")
+    @PostMapping("/projects/{id}/commit")
     public Commit create(@Valid @RequestBody Commit commit,@PathVariable String id) {
         Commit result = repository
                 .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
