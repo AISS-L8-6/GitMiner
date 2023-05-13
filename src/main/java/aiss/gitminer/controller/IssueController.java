@@ -63,11 +63,11 @@ public class IssueController {
     //POST HTTP://LOCALHOST:8080/GITMINER/PROJECTS/{id}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/projects/{id}/issues")
-    public Issue create(@Valid @RequestBody Issue issue, @PathVariable String projectId){
+    public Issue create(@Valid @RequestBody Issue issue, @PathVariable String id){
         Issue _issue = repository.save(new Issue(issue.getId(),issue.getRefId(),issue.getTitle(),issue.getDescription(),
                 issue.getState(),issue.getCreatedAt(),issue.getUpdatedAt(),issue.getClosedAt(),issue.getLabels(),
                 issue.getAuthor(),issue.getAssignee(),issue.getUpvotes(),issue.getDownvotes(),issue.getComments()));
-        projectRepository.findById(projectId).get().getIssues().add(_issue);
+        projectRepository.findById(id).get().getIssues().add(_issue);
         repository.save(_issue);
         return _issue;
     }

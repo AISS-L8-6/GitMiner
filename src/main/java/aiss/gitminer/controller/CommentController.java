@@ -43,10 +43,10 @@ public class CommentController {
     //POST HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/issues/{id}/comments")
-    public Comment create(@Valid @RequestBody Comment comment, @PathVariable String issueId){
+    public Comment create(@Valid @RequestBody Comment comment, @PathVariable String id){
         Comment _comment = repository
                 .save(new Comment(comment.getId(), comment.getBody(),comment.getAuthor(),comment.getCreatedAt(),comment.getUpdatedAt()));
-        issueRepository.findById(issueId).get().getComments().add(_comment);
+        issueRepository.findById(id).get().getComments().add(_comment);
         repository.save(_comment);
         return _comment;
     }
