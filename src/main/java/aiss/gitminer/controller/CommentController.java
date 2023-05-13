@@ -34,22 +34,21 @@ public class CommentController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS
-<<<<<<< HEAD
+
     @Operation(summary = "Retrieve all comments"   ,tags = {"comment","get"} )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(schema = @Schema(implementation = CommentController.class ),mediaType = "application/json")})
     })
-    @GetMapping
-=======
+
     @GetMapping("/comments")
->>>>>>> f5817d07517bc5c0616e4afb9201d36a0985bb1d
+
     public List<Comment> findAll(){
         return repository.findAll();
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
-<<<<<<< HEAD
+
     @Operation(summary = "Retrieve comment by id"
             ,tags = {"commet","get"} )
     @ApiResponses({
@@ -59,10 +58,10 @@ public class CommentController {
                     @Content(schema = @Schema())
             })
     })
-    @GetMapping("/{id}")
-=======
+
+
     @GetMapping("/comments/{id}")
->>>>>>> f5817d07517bc5c0616e4afb9201d36a0985bb1d
+
     public Comment findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> comment = repository.findById(id);
         if(!comment.isPresent()){
