@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.User;
 import aiss.gitminer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,11 @@ public class UserController {
     //PUT HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody User updatedUser, @PathVariable String id){
+    public void update(@Valid @RequestBody User updatedUser, @PathVariable String id) throws CommentNotFoundException {
         Optional<User> userData = repository.findById(id);
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         User _user = userData.get();
         _user.setUsername(updatedUser.getUsername());
         _user.setName(updatedUser.getName());
@@ -56,7 +60,10 @@ public class UserController {
     //DELETE HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id) throws CommentNotFoundException {
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         if(repository.existsById(id)){
             repository.deleteById(id);
         }

@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommentRepository;
@@ -28,15 +29,18 @@ public class CommentController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS
-    @GetMapping("/comments")
+    @GetMapping
     public List<Comment> findAll(){
         return repository.findAll();
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
-    @GetMapping("/comments/{id}")
-    public Comment findOne(@PathVariable String id){
+    @GetMapping("/{id}")
+    public Comment findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> comment = repository.findById(id);
+        if(!comment.isPresent()){
+            throw new CommentNotFoundException();
+        }
         return comment.get();
     }
 
@@ -53,9 +57,12 @@ public class CommentController {
 
     //PUT HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/comments/{id}")
-    public void update(@Valid @RequestBody Comment updatedComment, @PathVariable String id) {
+    @PutMapping("/{id}")
+    public void update(@Valid @RequestBody Comment updatedComment, @PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> commentData = repository.findById(id);
+        if(!commentData.isPresent()){
+            throw new CommentNotFoundException();
+        }
         Comment _comment = commentData.get();
         _comment.setBody(updatedComment.getBody());
         _comment.setAuthor(updatedComment.getAuthor());
@@ -66,8 +73,11 @@ public class CommentController {
 
     //DELETE HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/comments/{id}")
-    public  void  delete(@PathVariable String id){
+    @DeleteMapping("/{id}")
+    public  void  delete(@PathVariable String id) throws CommentNotFoundException {
+        if(!(repository.existsById(id))){
+            throw new CommentNotFoundException();
+        }
         if (repository.existsById(id)){
             repository.deleteById(id);
         }

@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
@@ -40,8 +41,11 @@ public class CommitController {
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMITS/{ID}
     @GetMapping("/commits/{id}")
-    public Commit findOne(@PathVariable String id){
+    public Commit findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Commit> result = repository.findById(id);
+        if(!result.isPresent()){
+            throw new CommentNotFoundException();
+        }
         return result.get();
     }
 
@@ -59,8 +63,11 @@ public class CommitController {
     //PUT HTTP://LOCALHOST:8080/GITMINER/COMMITS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/commits/{id}")
-    public void update(@Valid @RequestBody Commit updatedCommit, @PathVariable String id){
+    public void update(@Valid @RequestBody Commit updatedCommit, @PathVariable String id) throws CommentNotFoundException {
         Optional<Commit> commitData = repository.findById(id);
+        if(!commitData.isPresent()){
+            throw new CommentNotFoundException();
+        }
         Commit _commit = commitData.get();
         _commit.setTitle(updatedCommit.getTitle());
         _commit.setMessage(updatedCommit.getMessage());
@@ -77,7 +84,10 @@ public class CommitController {
     //DELETE HTTP://LOCALHOST:8080/GITMINER/COMMITS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/commits/{id}")
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable String id) throws CommentNotFoundException {
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         if (repository.existsById(id)){
             repository.deleteById(id);
         }

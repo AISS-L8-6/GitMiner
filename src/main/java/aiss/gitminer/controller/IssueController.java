@@ -1,5 +1,6 @@
 package aiss.gitminer.controller;
 
+import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Issue;
 import aiss.gitminer.model.Project;
@@ -45,8 +46,11 @@ public class IssueController {
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @GetMapping("/issues/{id}")
-    public Issue findOne(@PathVariable String id){
+    public Issue findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Issue> issue = repository.findById(id);
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         return issue.get();
     }
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES?STATE={STATE}
@@ -55,8 +59,11 @@ public class IssueController {
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
     @GetMapping("/issues/{id}/comments")
-    public List<Comment> findCommentsFromIssueId(@PathVariable String id){
+    public List<Comment> findCommentsFromIssueId(@PathVariable String id) throws CommentNotFoundException {
         List<Comment> comments = repository.findById(id).get().getComments();
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         return comments;
     }
 
@@ -74,8 +81,11 @@ public class IssueController {
     //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/issues/{id}")
-    public void update(@Valid @RequestBody Issue issue, @PathVariable String id){
+    public void update(@Valid @RequestBody Issue issue, @PathVariable String id) throws CommentNotFoundException {
         Optional<Issue> commentIssue = repository.findById(id);
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         Issue _issue = commentIssue.get();
         _issue.setRefId(issue.getRefId());
         _issue.setTitle(issue.getTitle());
@@ -96,7 +106,10 @@ public class IssueController {
     //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/issues/{id}")
-    public  void  delete(@PathVariable String id){
+    public  void  delete(@PathVariable String id) throws CommentNotFoundException {
+        if(!repository.existsById(id)){
+            throw new CommentNotFoundException();
+        }
         if (repository.existsById(id)){
             repository.deleteById(id);
         }
