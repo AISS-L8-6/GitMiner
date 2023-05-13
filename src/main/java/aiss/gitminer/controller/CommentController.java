@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/gitminer/comments")
+@RequestMapping("/gitminer")
 public class CommentController {
     @Autowired
     CommentRepository repository;
@@ -42,7 +42,7 @@ public class CommentController {
 
     //POST HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("issues/{id}/comments")
+    @PostMapping("/issues/{id}/comments")
     public Comment create(@Valid @RequestBody Comment comment, @PathVariable String id){
         Comment _comment = repository
                 .save(new Comment(comment.getId(), comment.getBody(),comment.getAuthor(),comment.getCreatedAt(),comment.getUpdatedAt()));

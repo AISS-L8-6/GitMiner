@@ -4,6 +4,7 @@ import aiss.gitminer.model.Commit;
 import aiss.gitminer.repository.CommitRepository;
 import aiss.gitminer.repository.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,12 +46,11 @@ public class CommitController {
     public List<Commit> findByEmail(@RequestParam("email") String email){
 
     }*/
-/*
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Commit create(@Valid @RequestBody Commit commit) {
         Commit result = repository
                 .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
         return result;
-    }*/
+    }
 }
