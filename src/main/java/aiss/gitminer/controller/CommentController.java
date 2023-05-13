@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS
-    @GetMapping
+    @GetMapping("/comments")
     public List<Comment> findAll(){
         return repository.findAll();
     }
