@@ -8,6 +8,7 @@ import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -68,7 +69,7 @@ public class IssueController {
     }
 
     //POST HTTP://LOCALHOST:8080/GITMINER/PROJECTS/{id}
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects/{id}/issues")
     public Issue create(@Valid @RequestBody Issue issue, @PathVariable String id){
         Issue _issue = repository.save(new Issue(issue.getId(),issue.getRefId(),issue.getTitle(),issue.getDescription(),
@@ -106,12 +107,19 @@ public class IssueController {
     //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/issues/{id}")
+    @Transactional
     public  void  delete(@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
+        }/*
+        Issue issue = repository.findById(id).get();
+        repository.deleteUser(issue.getAuthor().getId());
+        if(!issue.getAssignee().equals(null)){
+            repository.deleteUser(issue.getAssignee().getId());
         }
-        if (repository.existsById(id)){
-            repository.deleteById(id);
-        }
+        for(int i = 0; i < issue.getComments().size(); i++){
+            repository.deleteComment(issue.getComments().get(i).getId());
+        }*/
+        repository.deleteById(id);
     }
 }

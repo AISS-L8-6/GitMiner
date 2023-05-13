@@ -28,7 +28,7 @@ public class UserController {
     }
 
     //POST HTTP://LOCALHOST:8080/GITMINER/USERS
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User create(@Valid @RequestBody User user){
         User newUser = repository.save(new User(
