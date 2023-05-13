@@ -29,18 +29,8 @@ public class IssueController {
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES
     @GetMapping("/issues")
-    public List<Issue> findAll(@RequestParam (required = false) String state, @RequestParam(required = false) String authorId){
-        if (state != null && authorId != null){
-            List<Issue> issues = repository.findIssuesByAuthorId(authorId);
-            return issues.stream().filter(x -> x.getState().equals(state)).toList();
-        }
-        //
-        else if (authorId != null)
-                return repository.findIssuesByAuthorId(authorId);
-            else if (state != null)
-                return repository.findIssuesByState(state);
-            else
-                return repository.findAll();
+    public List<Issue> findAll(){
+        return repository.findAll();
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
@@ -50,7 +40,17 @@ public class IssueController {
         return issue.get();
     }
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES?STATE={STATE}
-
+    @GetMapping(params = "state")
+    public List<Issue> findIssueByState(@RequestParam ("state") String state){
+        List<Issue> issues = repository.findIssuesByState(state);
+        return issues;
+    }
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/AUTHORID={AUTHORID}
+    @GetMapping(params = "authorId")
+    public List<Issue> findByAuthorId(@RequestParam("authorId") String authorId){
+        List<Issue> issues = repository.findIssuesByAuthorId(authorId);
+        return issues;
+    }
 
 
     //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
