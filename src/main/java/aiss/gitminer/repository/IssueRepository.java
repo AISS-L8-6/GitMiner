@@ -15,6 +15,4 @@ public interface IssueRepository extends JpaRepository<Issue, String> {
     @Query("select i from Issue i where i.state = :state")
     public List<Issue> findIssuesByState(String state);
 
-    @Query("select comments from Issue i ")
-    public List<Comment> findCommentsByIssueId(String id);
 }

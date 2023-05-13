@@ -53,7 +53,9 @@ public class Commit {
         this.committedDate = committedDate;
         this.webUrl = webUrl;
     }
+    public Commit(){
 
+    }
 
     public String getId() {
         return id;
