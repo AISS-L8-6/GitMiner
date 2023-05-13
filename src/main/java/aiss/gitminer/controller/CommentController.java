@@ -34,17 +34,22 @@ public class CommentController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS
+<<<<<<< HEAD
     @Operation(summary = "Retrieve all comments"   ,tags = {"comment","get"} )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Success", content = {
                     @Content(schema = @Schema(implementation = CommentController.class ),mediaType = "application/json")})
     })
     @GetMapping
+=======
+    @GetMapping("/comments")
+>>>>>>> f5817d07517bc5c0616e4afb9201d36a0985bb1d
     public List<Comment> findAll(){
         return repository.findAll();
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
+<<<<<<< HEAD
     @Operation(summary = "Retrieve comment by id"
             ,tags = {"commet","get"} )
     @ApiResponses({
@@ -55,6 +60,9 @@ public class CommentController {
             })
     })
     @GetMapping("/{id}")
+=======
+    @GetMapping("/comments/{id}")
+>>>>>>> f5817d07517bc5c0616e4afb9201d36a0985bb1d
     public Comment findOne(@PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> comment = repository.findById(id);
         if(!comment.isPresent()){
@@ -95,7 +103,7 @@ public class CommentController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/comments/{id}")
     public void update(@Valid @RequestBody Comment updatedComment, @PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> commentData = repository.findById(id);
         if(!commentData.isPresent()){
@@ -121,7 +129,7 @@ public class CommentController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/comments/{id}")
     public  void  delete(@PathVariable String id) throws CommentNotFoundException {
         if(!(repository.existsById(id))){
             throw new CommentNotFoundException();
