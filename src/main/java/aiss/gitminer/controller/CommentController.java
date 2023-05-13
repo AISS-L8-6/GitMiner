@@ -47,6 +47,7 @@ public class CommentController {
         Comment _comment = repository
                 .save(new Comment(comment.getId(), comment.getBody(),comment.getAuthor(),comment.getCreatedAt(),comment.getUpdatedAt()));
         issueRepository.findCommentsByIssueId(id).add(_comment);
+        repository.save(_comment);
         return _comment;
     }
 
