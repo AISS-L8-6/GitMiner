@@ -27,25 +27,25 @@ public class IssueController {
         this.repository = repository;
     }
 
-    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES
     @GetMapping("/issues")
     public List<Issue> findAll(){
         return repository.findAll();
     }
 
-    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @GetMapping("/issues/{id}")
     public Issue findOne(@PathVariable String id){
         Optional<Issue> issue = repository.findById(id);
         return issue.get();
     }
-    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES?STATE={STATE}
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES?STATE={STATE}
     @GetMapping(params = "state")
     public List<Issue> findIssueByState(@RequestParam ("state") String state){
         List<Issue> issues = repository.findIssuesByState(state);
         return issues;
     }
-    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES/AUTHORID={AUTHORID}
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/AUTHORID={AUTHORID}
     @GetMapping(params = "authorId")
     public List<Issue> findByAuthorId(@RequestParam("authorId") String authorId){
         List<Issue> issues = repository.findIssuesByAuthorId(authorId);
@@ -53,14 +53,14 @@ public class IssueController {
     }
 
 
-    //GET HTTP/LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
+    //GET HTTP://LOCALHOST:8080/GITMINER/ISSUES/{id}/COMMENTS
     @GetMapping("/issues/{id}/comments")
     public List<Comment> findCommentsFromIssueId(@PathVariable String id){
         List<Comment> comments = repository.findById(id).get().getComments();
         return comments;
     }
 
-    //POST HTTP/LOCALHOST:8080/GITMINER/PROJECTS/{id}
+    //POST HTTP://LOCALHOST:8080/GITMINER/PROJECTS/{id}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping("/projects/{id}/issues")
     public Issue create(@Valid @RequestBody Issue issue, @PathVariable String projectId){
@@ -71,7 +71,7 @@ public class IssueController {
         repository.save(_issue);
         return _issue;
     }
-    //PUT HTTP/LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/issues/{id}")
     public void update(@Valid @RequestBody Issue issue, @PathVariable String id){
@@ -93,7 +93,7 @@ public class IssueController {
         repository.save(_issue);
     }
 
-    //PUT HTTP/LOCALHOST:8080/GITMINER/ISSUES/{ID}
+    //PUT HTTP://LOCALHOST:8080/GITMINER/ISSUES/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/issues/{id}")
     public  void  delete(@PathVariable String id){

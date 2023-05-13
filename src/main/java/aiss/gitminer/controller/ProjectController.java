@@ -49,7 +49,7 @@ public class ProjectController {
     }
 
 
-    //PUT HTTP/LOCALHOST:8080/PROJECTS/ID
+    //PUT HTTP://LOCALHOST:8080/PROJECTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("{/id}")
     public void update(@Valid @RequestBody Project updatedProject, @PathVariable String id) {
@@ -62,10 +62,10 @@ public class ProjectController {
         repository.save(_project);
     }
 
-    //DELETE HTTP/LOCALHOST:8080/PROJECTS/ID
+    //DELETE HTTP://LOCALHOST:8080/PROJECTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{/id}")
-    public void update(@PathVariable String id) {
+    public void delete(@PathVariable String id) {
         if(repository.existsById(id)){
             repository.deleteById(id);
         }
