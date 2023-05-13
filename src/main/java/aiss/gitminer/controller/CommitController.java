@@ -1,8 +1,10 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.model.Commit;
+import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
 import aiss.gitminer.repository.IssueRepository;
+import aiss.gitminer.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,11 +15,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/gitminer/commits")
+@RequestMapping("/gitminer/")
 public class CommitController {
 
     @Autowired
     CommitRepository repository;
+
+    @Autowired
+    ProjectRepository projectRepository;
 
     public CommitController(CommitRepository repository){
         this.repository = repository;
@@ -51,6 +56,7 @@ public class CommitController {
     public Commit create(@Valid @RequestBody Commit commit) {
         Commit result = repository
                 .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
+        projectRepository.
         return result;
     }
 }

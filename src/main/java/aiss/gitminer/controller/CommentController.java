@@ -34,7 +34,7 @@ public class CommentController {
     }
 
     //GET HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
-    @GetMapping("/{id}")
+    @GetMapping("/comments/{id}")
     public Comment findOne(@PathVariable String id){
         Optional<Comment> comment = repository.findById(id);
         return comment.get();
@@ -52,7 +52,7 @@ public class CommentController {
 
     //PUT HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/comments/{id}")
     public void update(@Valid @RequestBody Comment updatedComment, @PathVariable String id) {
         Optional<Comment> commentData = repository.findById(id);
         Comment _comment = commentData.get();
@@ -65,7 +65,7 @@ public class CommentController {
 
     //DELETE HTTP://LOCALHOST:8080/GITMINER/COMMENTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/comments/{id}")
     public  void  delete(@PathVariable String id){
         if (repository.existsById(id)){
             repository.deleteById(id);
