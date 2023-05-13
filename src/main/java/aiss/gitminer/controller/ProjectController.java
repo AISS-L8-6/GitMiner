@@ -51,7 +51,7 @@ public class ProjectController {
 
     //PUT HTTP://LOCALHOST:8080/PROJECTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public void update(@Valid @RequestBody Project updatedProject, @PathVariable String id) {
         Optional<Project> projectData = repository.findById(id);
         Project _project = projectData.get();
@@ -64,7 +64,7 @@ public class ProjectController {
 
     //DELETE HTTP://LOCALHOST:8080/PROJECTS/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         if(repository.existsById(id)){
             repository.deleteById(id);

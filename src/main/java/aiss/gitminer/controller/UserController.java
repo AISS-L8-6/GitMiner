@@ -42,7 +42,7 @@ public class UserController {
 
     //PUT HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("{/id}")
+    @PutMapping("/{id}")
     public void update(@Valid @RequestBody User updatedUser, @PathVariable String id){
         Optional<User> userData = repository.findById(id);
         User _user = userData.get();
@@ -55,7 +55,7 @@ public class UserController {
 
     //DELETE HTTP://LOCALHOST:8080/GITMINER/USER/{ID}
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         if(repository.existsById(id)){
             repository.deleteById(id);
