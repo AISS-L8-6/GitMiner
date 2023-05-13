@@ -14,7 +14,7 @@ public class Issue {
     private String id;
 
     @JsonProperty("ref_id")
-    private String refId;
+    private String ref_id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("description")
@@ -24,11 +24,11 @@ public class Issue {
     private String state;
 
     @JsonProperty("created_at")
-    private String createdAt;
+    private String created_at;
     @JsonProperty("updated_at")
-    private String updatedAt;
+    private String updated_at;
     @JsonProperty("closed_at")
-    private String closedAt;
+    private String closed_at;
     @JsonProperty("labels")
     @ElementCollection
     private List<String> labels;
@@ -46,9 +46,6 @@ public class Issue {
     @JsonProperty("downvotes")
     private Integer downvotes;
 
-    @JsonProperty("web_url")
-    private String webUrl;
-
     @JsonProperty("comments")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "issueId")
@@ -63,11 +60,11 @@ public class Issue {
     }
 
     public String getRefId() {
-        return refId;
+        return ref_id;
     }
 
-    public void setRefId(String refId) {
-        this.refId = refId;
+    public void setRefId(String ref_id) {
+        this.ref_id = ref_id;
     }
 
     public String getTitle() {
@@ -95,27 +92,27 @@ public class Issue {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return created_at;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(String created_at) {
+        this.created_at = created_at;
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return updated_at;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedAt(String updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getClosedAt() {
-        return closedAt;
+        return closed_at;
     }
 
-    public void setClosedAt(String closedAt) {
-        this.closedAt = closedAt;
+    public void setClosedAt(String closed_at) {
+        this.closed_at = closed_at;
     }
 
     public List<String> getLabels() {
@@ -158,13 +155,6 @@ public class Issue {
         this.downvotes = downvotes;
     }
 
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
-    }
 
     public List<Comment> getComments() {
         return comments;
@@ -182,9 +172,9 @@ public class Issue {
         sb.append('=');
         sb.append(((this.id == null) ? "<null>" : this.id));
         sb.append(',');
-        sb.append("refId");
+        sb.append("ref_id");
         sb.append('=');
-        sb.append(((this.refId == null) ? "<null>" : this.refId));
+        sb.append(((this.ref_id == null) ? "<null>" : this.ref_id));
         sb.append(',');
         sb.append("title");
         sb.append('=');
@@ -198,17 +188,17 @@ public class Issue {
         sb.append('=');
         sb.append(((this.state == null) ? "<null>" : this.state));
         sb.append(',');
-        sb.append("createdAt");
+        sb.append("created_at");
         sb.append('=');
-        sb.append(((this.createdAt == null) ? "<null>" : this.createdAt));
+        sb.append(((this.created_at == null) ? "<null>" : this.created_at));
         sb.append(',');
-        sb.append("updatedAt");
+        sb.append("updated_at");
         sb.append('=');
-        sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
+        sb.append(((this.updated_at == null) ? "<null>" : this.updated_at));
         sb.append(',');
-        sb.append("closedAt");
+        sb.append("closed_at");
         sb.append('=');
-        sb.append(((this.closedAt == null) ? "<null>" : this.closedAt));
+        sb.append(((this.closed_at == null) ? "<null>" : this.closed_at));
         sb.append(',');
         sb.append("labels");
         sb.append('=');
