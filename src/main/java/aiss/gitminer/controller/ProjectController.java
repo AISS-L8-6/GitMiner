@@ -1,6 +1,7 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.CommentNotFoundException;
+import aiss.gitminer.exception.ProjectNotFoundException;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,10 +71,10 @@ public class ProjectController {
             })
     })
     @GetMapping("/{id}")
-    public Project findOne(@Parameter(description = "id of the project to be searched")@PathVariable String id) throws CommentNotFoundException {
+    public Project findOne(@Parameter(description = "id of the project to be searched")@PathVariable String id) throws ProjectNotFoundException {
         Optional<Project> project = repository.findById(id);
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new ProjectNotFoundException();
         }
         return project.get();
     }
@@ -92,10 +93,10 @@ public class ProjectController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody Project updatedProject, @Parameter(description = "id of the project to be update ") @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody Project updatedProject, @Parameter(description = "id of the project to be update ") @PathVariable String id) throws ProjectNotFoundException {
         Optional<Project> projectData = repository.findById(id);
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new ProjectNotFoundException();
         }
         Project _project = projectData.get();
         _project.setName(updatedProject.getName());
@@ -118,9 +119,9 @@ public class ProjectController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@Parameter(description = "id of the project to be delete")@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the project to be delete")@PathVariable String id) throws ProjectNotFoundException {
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new ProjectNotFoundException();
         }
         Project project = repository.findById(id).get();
         project.setCommits(null);

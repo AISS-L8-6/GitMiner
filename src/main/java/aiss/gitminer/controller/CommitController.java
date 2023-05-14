@@ -1,6 +1,7 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.CommentNotFoundException;
+import aiss.gitminer.exception.CommitNotFoundException;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.CommitRepository;
@@ -62,10 +63,10 @@ public class CommitController {
             })
     })
     @GetMapping("/commits/{id}")
-    public Commit findOne(@Parameter(description = "id of the commit to be searched")@PathVariable String id) throws CommentNotFoundException {
+    public Commit findOne(@Parameter(description = "id of the commit to be searched")@PathVariable String id) throws CommitNotFoundException {
         Optional<Commit> result = repository.findById(id);
         if(!result.isPresent()){
-            throw new CommentNotFoundException();
+            throw new CommitNotFoundException();
         }
         return result.get();
     }
@@ -105,10 +106,10 @@ public class CommitController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/commits/{id}")
     public void update(@Valid @RequestBody Commit updatedCommit,
-                       @Parameter(description = "id of the commit to be update ") @PathVariable String id) throws CommentNotFoundException {
+                       @Parameter(description = "id of the commit to be update ") @PathVariable String id) throws CommitNotFoundException {
         Optional<Commit> commitData = repository.findById(id);
         if(!commitData.isPresent()){
-            throw new CommentNotFoundException();
+            throw new CommitNotFoundException();
         }
         Commit _commit = commitData.get();
         _commit.setTitle(updatedCommit.getTitle());
@@ -136,9 +137,9 @@ public class CommitController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/commits/{id}")
-    public void delete(@Parameter(description = "id of the comment to be delete")@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the comment to be delete")@PathVariable String id) throws CommitNotFoundException {
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new CommitNotFoundException();
         }
         if (repository.existsById(id)){
             repository.deleteById(id);

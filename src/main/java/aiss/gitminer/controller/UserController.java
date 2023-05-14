@@ -1,6 +1,7 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.CommentNotFoundException;
+import aiss.gitminer.exception.UserNotFoundException;
 import aiss.gitminer.model.User;
 import aiss.gitminer.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,10 +80,10 @@ public class UserController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody User updatedUser, @Parameter(description = "id of the user to be update ")@PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody User updatedUser, @Parameter(description = "id of the user to be update ")@PathVariable String id) throws UserNotFoundException {
         Optional<User> userData = repository.findById(id);
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new UserNotFoundException();
         }
         User _user = userData.get();
         _user.setUsername(updatedUser.getUsername());
@@ -105,9 +106,9 @@ public class UserController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@Parameter(description = "id of the issue to be delete")@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the issue to be delete")@PathVariable String id) throws UserNotFoundException {
         if(!repository.existsById(id)){
-            throw new CommentNotFoundException();
+            throw new UserNotFoundException();
         }
         if(repository.existsById(id)){
             repository.deleteById(id);
