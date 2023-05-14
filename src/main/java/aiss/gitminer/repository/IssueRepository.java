@@ -17,11 +17,4 @@ public interface IssueRepository extends JpaRepository<Issue, String> {
     @Query("select i from Issue i where i.state = :state")
     public List<Issue> findIssuesByState(String state);
 
-    @Modifying
-    @Query("delete from User u where u.id = :id")
-    public void deleteUser(String id);
-
-    @Modifying
-    @Query("delete from Comment c where c.id = :id")
-    public void deleteComment(String id);
 }
