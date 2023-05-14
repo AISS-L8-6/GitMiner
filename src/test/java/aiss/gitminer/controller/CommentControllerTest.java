@@ -14,6 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CommentControllerTest {
+
+/*
+    ################
+
+    Intentamos realizar los test de JUnit pero despues de mucho probar no fuimos capaces de realizarlos
+    Aquí se muestra una parte de como intentamos realizarlos
+    Suponemos que necesitamos el uso de la tecnología de Mockito de la cual no tenemos conocimiento
+
+    ################
+ */
+
+
 /*
     @Autowired
     CommentController controller;
