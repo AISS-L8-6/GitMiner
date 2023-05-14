@@ -134,8 +134,8 @@ public class CommentController {
         if(!(repository.existsById(id))){
             throw new CommentNotFoundException();
         }
-        if (repository.existsById(id)){
-            repository.deleteById(id);
-        }
+        Comment comment = repository.findById(id).get();
+        comment.setAuthor(null);
+        repository.delete(comment);
     }
 }

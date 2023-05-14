@@ -122,9 +122,10 @@ public class ProjectController {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
         }
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-        }
+        Project project = repository.findById(id).get();
+        project.setCommits(null);
+        project.setIssues(null);
+        repository.deleteById(id);
     }
 
 }

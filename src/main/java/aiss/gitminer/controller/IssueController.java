@@ -177,15 +177,11 @@ public class IssueController {
     public  void  delete(@Parameter(description = "id of the issue to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
-        }/*
-        Issue issue = repository.findById(id).get();
-        repository.deleteUser(issue.getAuthor().getId());
-        if(!issue.getAssignee().equals(null)){
-            repository.deleteUser(issue.getAssignee().getId());
         }
-        for(int i = 0; i < issue.getComments().size(); i++){
-            repository.deleteComment(issue.getComments().get(i).getId());
-        }*/
+        Issue issue = repository.findById(id).get();
+        issue.setAssignee(null);
+        issue.setAuthor(null);
+        issue.setComments(null);
         repository.deleteById(id);
     }
 }
