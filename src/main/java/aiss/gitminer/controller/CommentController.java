@@ -7,10 +7,12 @@ import aiss.gitminer.repository.CommentRepository;
 import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name="GitMiner comments",description = "Gitminer comments management API")
 @RestController
 @RequestMapping("/gitminer")
 public class CommentController {
@@ -59,7 +62,7 @@ public class CommentController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/comments/{id}")
-    public Comment findOne(@PathVariable String id) throws CommentNotFoundException {
+    public Comment findOne(@Parameter(description = "id of the comment to be searched") @PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> comment = repository.findById(id);
         if(!comment.isPresent()){
             throw new CommentNotFoundException();
@@ -79,7 +82,7 @@ public class CommentController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/issues/{id}/comments")
-    public Comment create(@Valid @RequestBody Comment comment, @PathVariable String id){
+    public Comment create(@Valid @RequestBody Comment comment,@Parameter(description = "id of the comment to be sent")  @PathVariable String id){
         Comment _comment = repository
                 .save(new Comment(comment.getId(), comment.getBody(),comment.getAuthor(),comment.getCreatedAt(),comment.getUpdatedAt()));
         issueRepository.findById(id).get().getComments().add(_comment);
@@ -100,7 +103,8 @@ public class CommentController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/comments/{id}")
-    public void update(@Valid @RequestBody Comment updatedComment, @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody Comment updatedComment,
+                       @Parameter(description = "id of the comment to be update ") @PathVariable String id) throws CommentNotFoundException {
         Optional<Comment> commentData = repository.findById(id);
         if(!commentData.isPresent()){
             throw new CommentNotFoundException();
@@ -126,7 +130,7 @@ public class CommentController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/comments/{id}")
-    public  void  delete(@PathVariable String id) throws CommentNotFoundException {
+    public  void  delete(@Parameter(description = "id of the comment to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!(repository.existsById(id))){
             throw new CommentNotFoundException();
         }

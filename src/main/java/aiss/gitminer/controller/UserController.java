@@ -4,10 +4,12 @@ import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.User;
 import aiss.gitminer.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name="GitMiner Users", description = "GitMiner users management API")
 @RestController
 @RequestMapping("/gitminer/users")
 public class UserController {
@@ -76,7 +79,7 @@ public class UserController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody User updatedUser, @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody User updatedUser, @Parameter(description = "id of the user to be update ")@PathVariable String id) throws CommentNotFoundException {
         Optional<User> userData = repository.findById(id);
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -102,7 +105,7 @@ public class UserController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the issue to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
         }

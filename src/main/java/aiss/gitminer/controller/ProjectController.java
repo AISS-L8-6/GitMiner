@@ -4,10 +4,12 @@ import aiss.gitminer.exception.CommentNotFoundException;
 import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Tag(name="GitMiner Projects", description = "GitMiner projects management API")
 @RestController
 @RequestMapping("/gitminer/projects")
 public class ProjectController {
@@ -67,7 +70,7 @@ public class ProjectController {
             })
     })
     @GetMapping("/{id}")
-    public Project findOne(@PathVariable String id) throws CommentNotFoundException {
+    public Project findOne(@Parameter(description = "id of the project to be searched")@PathVariable String id) throws CommentNotFoundException {
         Optional<Project> project = repository.findById(id);
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -89,7 +92,7 @@ public class ProjectController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody Project updatedProject, @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody Project updatedProject, @Parameter(description = "id of the project to be update ") @PathVariable String id) throws CommentNotFoundException {
         Optional<Project> projectData = repository.findById(id);
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -115,7 +118,7 @@ public class ProjectController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the project to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
         }

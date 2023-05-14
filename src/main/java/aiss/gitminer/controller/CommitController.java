@@ -7,10 +7,12 @@ import aiss.gitminer.repository.CommitRepository;
 import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name="GitMiner Commits", description = "GitMiner commits management API")
 @RestController
 @RequestMapping("/gitminer")
 public class CommitController {
@@ -59,7 +62,7 @@ public class CommitController {
             })
     })
     @GetMapping("/commits/{id}")
-    public Commit findOne(@PathVariable String id) throws CommentNotFoundException {
+    public Commit findOne(@Parameter(description = "id of the commit to be searched")@PathVariable String id) throws CommentNotFoundException {
         Optional<Commit> result = repository.findById(id);
         if(!result.isPresent()){
             throw new CommentNotFoundException();
@@ -79,7 +82,8 @@ public class CommitController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects/{id}/commit")
-    public Commit create(@Valid @RequestBody Commit commit,@PathVariable String id) {
+    public Commit create(@Valid @RequestBody Commit commit,
+                         @Parameter(description = "id of the commit to be sent") @PathVariable String id) {
         Commit result = repository
                 .save(new Commit(commit.getId(), commit.getTitle(), commit.getMessage(), commit.getAuthorName(), commit.getAuthorEmail(), commit.getAuthoredDate(), commit.getCommitterName(), commit.getCommitterEmail(), commit.getCommittedDate(), commit.getWebUrl()));
         projectRepository.findById(id).get().getCommits().add(result);
@@ -100,7 +104,8 @@ public class CommitController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/commits/{id}")
-    public void update(@Valid @RequestBody Commit updatedCommit, @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody Commit updatedCommit,
+                       @Parameter(description = "id of the commit to be update ") @PathVariable String id) throws CommentNotFoundException {
         Optional<Commit> commitData = repository.findById(id);
         if(!commitData.isPresent()){
             throw new CommentNotFoundException();
@@ -131,7 +136,7 @@ public class CommitController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/commits/{id}")
-    public void delete(@PathVariable String id) throws CommentNotFoundException {
+    public void delete(@Parameter(description = "id of the comment to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
         }

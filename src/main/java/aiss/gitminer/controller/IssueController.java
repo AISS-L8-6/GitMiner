@@ -7,10 +7,12 @@ import aiss.gitminer.model.Project;
 import aiss.gitminer.repository.IssueRepository;
 import aiss.gitminer.repository.ProjectRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "GitMiner Issues", description = "GitMiner issues management API")
 @RestController
 @RequestMapping("/gitminer")
 public class IssueController {
@@ -46,7 +49,8 @@ public class IssueController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/issues")
-    public List<Issue> findAll(@RequestParam (required = false) String state, @RequestParam(required = false) String authorId){
+    public List<Issue> findAll(@RequestParam (required = false) String state,
+                               @RequestParam(required = false) String authorId){
         if (state != null && authorId != null){
             List<Issue> issues = repository.findIssuesByAuthorId(authorId);
             return issues.stream().filter(x -> x.getState().equals(state)).toList();
@@ -72,7 +76,7 @@ public class IssueController {
     })
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/issues/{id}")
-    public Issue findOne(@PathVariable String id) throws CommentNotFoundException {
+    public Issue findOne(@Parameter(description = "id of the issue to be searched")@PathVariable String id) throws CommentNotFoundException {
         Optional<Issue> issue = repository.findById(id);
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -91,7 +95,7 @@ public class IssueController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = { @Content(schema = @Schema())})
     })
     @GetMapping("/issues/{id}/comments")
-    public List<Comment> findCommentsFromIssueId(@PathVariable String id) throws CommentNotFoundException {
+    public List<Comment> findCommentsFromIssueId(@Parameter(description = "id of the comments to be searched")@PathVariable String id) throws CommentNotFoundException {
         List<Comment> comments = repository.findById(id).get().getComments();
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -111,7 +115,7 @@ public class IssueController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/projects/{id}/issues")
-    public Issue create(@Valid @RequestBody Issue issue, @PathVariable String id){
+    public Issue create(@Valid @RequestBody Issue issue,@Parameter(description = "id of the issue to be sent") @PathVariable String id){
         Issue _issue = repository.save(new Issue(issue.getId(),issue.getRefId(),issue.getTitle(),issue.getDescription(),
                 issue.getState(),issue.getCreatedAt(),issue.getUpdatedAt(),issue.getClosedAt(),issue.getLabels(),
                 issue.getAuthor(),issue.getAssignee(),issue.getUpvotes(),issue.getDownvotes(),issue.getComments()));
@@ -133,7 +137,8 @@ public class IssueController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/issues/{id}")
-    public void update(@Valid @RequestBody Issue issue, @PathVariable String id) throws CommentNotFoundException {
+    public void update(@Valid @RequestBody Issue issue,
+                       @Parameter(description = "id of the issue to be update ")  @PathVariable String id) throws CommentNotFoundException {
         Optional<Issue> commentIssue = repository.findById(id);
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
@@ -169,7 +174,7 @@ public class IssueController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/issues/{id}")
     @Transactional
-    public  void  delete(@PathVariable String id) throws CommentNotFoundException {
+    public  void  delete(@Parameter(description = "id of the issue to be delete")@PathVariable String id) throws CommentNotFoundException {
         if(!repository.existsById(id)){
             throw new CommentNotFoundException();
         }/*
